@@ -11,6 +11,7 @@ int main()
     string oname = "OUTPUT.TXT";
     int size, maxMas, value;
     vector<int> arr;
+    arr.reserve(15000);
     ifstream fileInput(fname);
     if (fileInput.is_open()) {
         fileInput >> size;
@@ -53,7 +54,7 @@ int main()
 
     sort(arr.begin(), arr.end(), greater<int>());
 
-    int count = 0;
+    /*int count = 0;
     while (arr.size() != 0) {
         for (int i = 0; i < arr.size();) {
             for (int j = arr.size() - 1; j > 0; j--) {
@@ -69,6 +70,41 @@ int main()
                     break;
                 }
             }
+        }
+    }*/
+
+    int count = 0, countZero = 0;
+    bool flag = false;
+    while (flag == false) {
+        for (int i = 0; i < arr.size(); ) {
+            if (flag == false) {
+                for (int j = arr.size() - 1; j > 0; j--) {
+                    if (arr[i] == 0)
+                        i++;
+                    if (arr[j] == 0) {
+                        j--;
+                    }
+                    if (arr[i] + arr[j] > maxMas) {
+                        count++;
+                        arr[i] = 0;
+                        countZero++;
+                        if (countZero == size)
+                            flag = true;
+                        break;
+                    }
+                    else {
+                        count++;
+                        arr[i] = 0;
+                        arr[j] = 0;
+                        countZero += 2;
+                        if (countZero == size)
+                            flag = true;
+                        break;
+                    }
+                }
+            }
+            else
+                break;
         }
     }
 
